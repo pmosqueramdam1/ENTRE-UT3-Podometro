@@ -99,19 +99,22 @@ public class Podometro {
             case 5 : dia = 5;
                     totalPasosLaborables += pasos;
                     break;         
-            case 6 : dia = 6;
+            case 6 : dia = SABADO;
                     totalPasosSabado += pasos;
                     break; 
-            case 7 : dia = 7;
+            default : dia = DOMINGO;
                     totalPasosDomingo += pasos;
                     break;        
         }
         
         totalDistanciaSemana = totalPasosLaborables * longitudZancada / 100;
         totalDistanciaFinSemana = (totalPasosSabado + totalPasosDomingo)* longitudZancada / 100;
+        if (horaInicio >= 2100) {
+            caminatasNoche++; 
+        }
     }
 
-    /**
+        /**
      * Muestra en pantalla la configuración del podómetro
      * (altura, sexo y longitud de la zancada)
      * 
@@ -148,17 +151,36 @@ public class Podometro {
         System.out.println("Nº caminatas realizadas a partir de las 21h.:"  + caminatasNoche);   
         System.out.println();
         System.out.println("Tiempo total caminado en la semana: " + tiempo);
-        
     }
 
     /**
      *  Calcula y devuelve un String que representa el nombre del día
      *  en el que se ha caminado más pasos - "SÁBADO"   "DOMINGO" o  "LABORABLES"
      */
-    public  void diaMayorNumeroPasos() {  
-        
-        
-         
+    public  String diaMayorNumeroPasos() {  
+        String dia = "";
+        if (totalPasosLaborables > totalPasosSabado && totalPasosLaborables > totalPasosDomingo) {
+            dia = "Laborables";
+        }
+        else if(totalPasosSabado > totalPasosLaborables && totalPasosSabado > totalPasosDomingo) {
+            dia = "Sabado"; 
+        }
+        else if(totalPasosDomingo > totalPasosLaborables && totalPasosDomingo > totalPasosSabado) {
+            dia = "Domingo";  
+        }
+        else if (totalPasosLaborables == totalPasosSabado && totalPasosLaborables > totalPasosDomingo) {
+            dia = "Laborables y Sabado";
+        }
+        else if (totalPasosLaborables == totalPasosDomingo && totalPasosLaborables > totalPasosSabado) {
+            dia = "Laborables y Domingo";
+        }
+        else if (totalPasosSabado == totalPasosDomingo && totalPasosSabado > totalPasosLaborables) {
+            dia = "Sabado y Domingo";
+        }
+        else {
+            dia = "Todos son iguales";
+        }
+        return dia;
     }
 
     /**
